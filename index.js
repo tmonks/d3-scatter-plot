@@ -24,28 +24,30 @@ const legend = svg
   .attr("height", legendHeight)
   .attr("id", "legend");
 
+// green circle and text for "no doping allegations"
 legend.append("circle").attr("cx", 10).attr("cy", 10).attr("r", 6).attr("fill", "green");
-
 legend
   .append("text")
   .attr("x", 20)
   .attr("y", 10)
-  .text("No doping")
+  .attr("font-size", "12")
+  .text("No doping allegations")
   .attr("alignment-baseline", "middle");
 
-legend.append("circle").attr("cx", 110).attr("cy", 10).attr("r", 6).attr("fill", "orange");
-
+// orange circle and text for "doping allegations"
+legend.append("circle").attr("cx", 150).attr("cy", 10).attr("r", 6).attr("fill", "orange");
 legend
   .append("text")
-  .attr("x", 120)
+  .attr("x", 160)
   .attr("y", 10)
-  .text("Doping")
+  .attr("font-size", "12")
+  .text("Doping allegations")
   .attr("alignment-baseline", "middle");
 
 // center the legend by moving it to the left by half of its computed width
 legend.attr(
   "transform",
-  `translate(${w / 2 - legend.node().getBoundingClientRect().width / 2}, ${margin.top})`
+  `translate(${w / 2 - legend.node().getBoundingClientRect().width / 2}, ${margin.top - 10})`
 );
 
 // add title
@@ -65,16 +67,8 @@ document.addEventListener("DOMContentLoaded", () => {
   )
     .then((res) => res.json())
     .then((data) => {
-      const minDate = new Date(
-        d3.min(data, (d) => d.Year),
-        0,
-        1
-      );
-      const maxDate = new Date(
-        d3.max(data, (d) => d.Year),
-        0,
-        1
-      );
+      const minDate = new Date(d3.min(data, (d) => d.Year) - 1, 0, 1);
+      const maxDate = new Date(d3.max(data, (d) => d.Year) + 1, 0, 1);
       const minTime = new Date(
         0,
         0,
@@ -91,9 +85,6 @@ document.addEventListener("DOMContentLoaded", () => {
         0,
         d3.max(data, (d) => d.Seconds)
       );
-
-      console.log(minDate + " - " + maxDate);
-      console.log(minTime + " - " + maxTime);
 
       // define the scales
       const xScale = d3.scaleTime().domain([minDate, maxDate]).range([0, graphWidth]);
