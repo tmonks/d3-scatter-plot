@@ -15,6 +15,16 @@ svg {
   text-anchor: middle;
 }
 
-.dot {
-  fill: blue;
+/* .dot {
+  fill: lightgreen;
+} */
+
+
+#tooltip {
+  position: absolute;
+  width: 200px;
+  height: 100px;
+  background-color: gray;
+  font-size: .8em;
+  color: white;
 }
